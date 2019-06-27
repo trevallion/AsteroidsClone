@@ -2,8 +2,8 @@
 
 public class ObjectScreenWrapper : MonoBehaviour
 {
-    private const float XBounds = 10.25f;
-    private const float YBounds = 7.25f;
+    private const float XBounds = 9.5f;
+    private const float YBounds = 5.5f;
 
     [SerializeField]
     private Renderer _objectRenderer;
@@ -15,7 +15,8 @@ public class ObjectScreenWrapper : MonoBehaviour
     {
         get
         {
-            return !_objectRenderer.isVisible;
+            return _objectTransform.position.x < -XBounds || _objectTransform.position.x > XBounds ||
+                _objectTransform.position.y < -YBounds || _objectTransform.position.y > YBounds;
         }
     }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class AsteroidController : MonoBehaviour
 {
     private const int DefaultAsteroidCount = 8;
-    private const float AngularVelocityCap = 0.8f;
+    private const float AngularVelocityCap = 5f;
 
     [SerializeField]
     private float _xBoundary;
@@ -18,6 +18,7 @@ public class AsteroidController : MonoBehaviour
     private void Awake()
     {
         AsteroidCount = DefaultAsteroidCount;
+        CreateNewAsteroids();
     }
 
     public void CreateNewAsteroids()
@@ -42,9 +43,15 @@ public class AsteroidController : MonoBehaviour
     private void CreateNewAsteroid()
     {
         Asteroid asteroid = ObjectFactory.GetLargeAsteroid();
+        asteroid.MoveTo(GetRandomPosition());
         Vector2 direction = Random.onUnitSphere;
         float angularVelocity = Random.Range(-AngularVelocityCap, AngularVelocityCap);
         asteroid.FlyInDirection(direction);
         asteroid.SetAngularVelocity(angularVelocity);
+    }
+
+    private Vector2 GetRandomPosition()
+    {
+        return new Vector2(Random.Range(-_xBoundary, _xBoundary), Random.Range(-_yBoundary, _yBoundary));
     }
 }

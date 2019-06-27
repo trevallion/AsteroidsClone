@@ -19,6 +19,7 @@ public class ObjectPool<T> where T : MonoBehaviour, IPoolableObject
 
     public ObjectPool(GameObject prefab, Vector3 inactiveObjectPosition, int defaultObjectsInPool)
     {
+        AvailableObjects = new Stack<T>();
         ObjectPrefab = prefab;
         ObjectPoolParent = CreatePoolParent(inactiveObjectPosition);
         for(int i = 0; i < defaultObjectsInPool; ++i)
@@ -59,7 +60,7 @@ public class ObjectPool<T> where T : MonoBehaviour, IPoolableObject
         {
             throw new System.InvalidOperationException($"Prefab for {nameof(T)} object pool does not contain an instance of {nameof(T)}.");
         }
-
+        objectInstance.Deactivate();
         return objectInstance;
     }
 

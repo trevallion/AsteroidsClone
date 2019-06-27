@@ -68,7 +68,7 @@ public class Asteroid : MonoBehaviour, IPoolableObject
 
     private void Explode()
     {
-        _destroyParticles.Play();
+        _destroyParticles?.Play();
         Deactivate();
         if (AsteroidSize != AsteroidSizeType.Small)
         {
