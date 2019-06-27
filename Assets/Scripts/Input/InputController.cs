@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InputController : MonoBehaviour
 {
@@ -27,8 +25,8 @@ public class InputController : MonoBehaviour
         {
             _inputReceiver.ReceiveVerticalInput(-InputValue);
         }
-            
-        if(Input.GetKey(ForwardInputKey))
+
+        if (Input.GetKey(ForwardInputKey))
         {
             _inputReceiver.ReceiveVerticalInput(InputValue);
         }

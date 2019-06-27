@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public interface IPoolableObject
@@ -22,7 +21,7 @@ public class ObjectPool<T> where T : MonoBehaviour, IPoolableObject
         AvailableObjects = new Stack<T>();
         ObjectPrefab = prefab;
         ObjectPoolParent = CreatePoolParent(inactiveObjectPosition);
-        for(int i = 0; i < defaultObjectsInPool; ++i)
+        for (int i = 0; i < defaultObjectsInPool; ++i)
         {
             AvailableObjects.Push(InstantiateNewObject());
         }
@@ -56,7 +55,7 @@ public class ObjectPool<T> where T : MonoBehaviour, IPoolableObject
 
         T objectInstance = newGameObject.GetComponent<T>();
 
-        if(objectInstance == null)
+        if (objectInstance == null)
         {
             throw new System.InvalidOperationException($"Prefab for {nameof(T)} object pool does not contain an instance of {nameof(T)}.");
         }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Asteroid : MonoBehaviour, IPoolableObject
 {
@@ -32,7 +30,7 @@ public class Asteroid : MonoBehaviour, IPoolableObject
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.layer == BulletLayer)
+        if (collision.gameObject.layer == BulletLayer)
         {
             Explode();
         }
