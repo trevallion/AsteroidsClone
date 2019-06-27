@@ -285,7 +285,8 @@ MonoBehaviour:
     type: 3}
   _largeAsteroidPrefab: {fileID: 5389195425220159455, guid: 6023c0b6a89854d449c1540cd91abb7d,
     type: 3}
-  _bulletPrefab: {fileID: 0}
+  _bulletPrefab: {fileID: 6001183030538276707, guid: a800447535013af47915c740b14eacb1,
+    type: 3}
 --- !u!1 &1351637433
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,6 +390,7 @@ GameObject:
   - component: {fileID: 1572474727}
   - component: {fileID: 1572474726}
   - component: {fileID: 1572474730}
+  - component: {fileID: 1572474732}
   m_Layer: 10
   m_Name: Ship
   m_TagString: Untagged
@@ -505,7 +507,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf8f8fa27dc09eb4ca2889891ceb1e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _objectRenderer: {fileID: 1572474728}
   _objectTransform: {fileID: 1572474729}
 --- !u!114 &1572474731
 MonoBehaviour:
@@ -553,9 +554,33 @@ MonoBehaviour:
       PublicKeyToken=null
   _actionInputEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1572474732}
+        m_MethodName: LaunchBullet
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1572474732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572474725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d26d14369ac0fb541bdec1784082cac0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shipTransform: {fileID: 1572474729}
 --- !u!1 &1620480416
 GameObject:
   m_ObjectHideFlags: 0

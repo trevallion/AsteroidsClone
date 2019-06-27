@@ -18,6 +18,7 @@ public class InputController : MonoBehaviour
     {
         CheckVerticalInput();
         CheckHorizontalInput();
+        CheckActionInput();
     }
 
     private void CheckVerticalInput()

@@ -162,6 +162,7 @@ MonoBehaviour:
   _destroyParticles: {fileID: 0}
   _asteroidRenderer: {fileID: 7038306016285642785}
   _collider2D: {fileID: 1616573609663709590}
+  _asteroidSize: 1
 --- !u!114 &8820411251563954820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,5 +175,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf8f8fa27dc09eb4ca2889891ceb1e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _objectRenderer: {fileID: 7038306016285642785}
   _objectTransform: {fileID: 4150478666230861643}

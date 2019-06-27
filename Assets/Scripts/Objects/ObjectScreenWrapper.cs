@@ -6,9 +6,6 @@ public class ObjectScreenWrapper : MonoBehaviour
     private const float YBounds = 5.5f;
 
     [SerializeField]
-    private Renderer _objectRenderer;
-
-    [SerializeField]
     private Transform _objectTransform;
 
     private bool IsOffscreen

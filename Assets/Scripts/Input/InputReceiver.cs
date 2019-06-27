@@ -12,7 +12,6 @@ public class InputReceiver : MonoBehaviour
     [SerializeField]
     private UnityEvent _actionInputEvent;
 
-
     public void ReceiveHorizontalInput(float value)
     {
         _horizontalInputEvent?.Invoke(value);

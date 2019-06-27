@@ -31,6 +31,8 @@ public class ObjectFactory : MonoBehaviour
 
     private ObjectPool<Asteroid> LargeAsteroidPool { get; set; }
 
+    private ObjectPool<Bullet> BulletPool { get; set; }
+
     private void Awake()
     {
         if (Instance == null)
@@ -45,6 +47,7 @@ public class ObjectFactory : MonoBehaviour
         SmallAsteroidPool = new ObjectPool<Asteroid>(_smallAsteroidPrefab, ObjectPoolDefaultPosition, DefaultNumberOfSmallAsteroids);
         MediumAsteroidPool = new ObjectPool<Asteroid>(_mediumAsteroidPrefab, ObjectPoolDefaultPosition, DefaultNumberOfMediumAsteroids);
         LargeAsteroidPool = new ObjectPool<Asteroid>(_largeAsteroidPrefab, ObjectPoolDefaultPosition, DefaultNumberOfLargeAsteroids);
+        BulletPool = new ObjectPool<Bullet>(_bulletPrefab, ObjectPoolDefaultPosition, DefaultNumberOfBullets);
     }
 
     public static void ReturnSmallAsteroid(Asteroid asteroid)
@@ -62,6 +65,11 @@ public class ObjectFactory : MonoBehaviour
         Instance.LargeAsteroidPool.Return(asteroid);
     }
 
+    public static void ReturnBullet(Bullet bullet)
+    {
+        Instance.BulletPool.Return(bullet);
+    }
+
     public static Asteroid GetSmallAsteroid()
     {
         return Instance.SmallAsteroidPool.Retrieve();
@@ -75,5 +83,10 @@ public class ObjectFactory : MonoBehaviour
     public static Asteroid GetLargeAsteroid()
     {
         return Instance.LargeAsteroidPool.Retrieve();
+    }
+
+    public static Bullet GetBullet()
+    {
+        return Instance.BulletPool.Retrieve();
     }
 }
