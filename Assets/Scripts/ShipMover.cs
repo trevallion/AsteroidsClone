@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShipMover : InputReceiver
+public class ShipMover : MonoBehaviour
 {
     private static float TurnSpeed = 1.5f;
     private static float AccelerationRate = 0.9f;
@@ -13,32 +13,16 @@ public class ShipMover : InputReceiver
     [SerializeField]
     private Transform _shipTransform;
 
-    public override void ReceiveHorizontalInput(float value)
+    public void RotateShip(float rotationAmount)
     {
-        RotateShip(TurnSpeed * value);
+        _shipRigidbody.rotation -= rotationAmount * TurnSpeed;
     }
 
-    public override void ReceiveVerticalInput(float value)
-    {
-        ChangeShipVelocity(value * AccelerationRate);
-    }
-
-    private void RotateShip(float rotationAmount)
-    {
-        _shipRigidbody.rotation -= rotationAmount;
-    }
-
-    private void ChangeShipVelocity(float velocityAmount)
+    public void ChangeShipVelocity(float velocityAmount)
     {
         // TODO: Cache value and apply in FixedUpdate
         float currentVelocityMagnitude = _shipRigidbody.velocity.magnitude;
         Vector2 forward = _shipTransform.up;
-        _shipRigidbody.AddForce(forward * velocityAmount);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _shipRigidbody.AddForce(forward * velocityAmount * AccelerationRate);
     }
 }

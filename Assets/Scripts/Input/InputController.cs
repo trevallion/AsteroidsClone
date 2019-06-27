@@ -5,10 +5,11 @@ using UnityEngine;
 public class InputController : MonoBehaviour
 {
     private const float InputValue = 1.0f;
-    private static KeyCode LeftInputKey = KeyCode.A;
-    private static KeyCode RightInputKey = KeyCode.D;
-    private static KeyCode ForwardInputKey = KeyCode.W;
-    private static KeyCode ReverseInputKey = KeyCode.S;
+    private const KeyCode LeftInputKey = KeyCode.A;
+    private const KeyCode RightInputKey = KeyCode.D;
+    private const KeyCode ForwardInputKey = KeyCode.W;
+    private const KeyCode ReverseInputKey = KeyCode.S;
+    private const KeyCode ActionInputKey = KeyCode.Space;
 
     [SerializeField]
     private InputReceiver _inputReceiver;
@@ -42,6 +43,14 @@ public class InputController : MonoBehaviour
         if (Input.GetKey(RightInputKey))
         {
             _inputReceiver.ReceiveHorizontalInput(InputValue);
+        }
+    }
+
+    private void CheckActionInput()
+    {
+        if (Input.GetKey(ActionInputKey))
+        {
+            _inputReceiver.ReceiveActionInput();
         }
     }
 }

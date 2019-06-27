@@ -374,7 +374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11e0eac6bc932d04293468eca8baa268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inputReceiver: {fileID: 1572474727}
+  _inputReceiver: {fileID: 1572474731}
 --- !u!1 &1572474725
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,6 +385,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1572474729}
   - component: {fileID: 1572474728}
+  - component: {fileID: 1572474731}
   - component: {fileID: 1572474727}
   - component: {fileID: 1572474726}
   - component: {fileID: 1572474730}
@@ -506,6 +507,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectRenderer: {fileID: 1572474728}
   _objectTransform: {fileID: 1572474729}
+--- !u!114 &1572474731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572474725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b51d6e0fec20ba46b1c124001fca0ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _horizontalInputEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1572474727}
+        m_MethodName: RotateShip
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityFloatEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  _verticalInputEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1572474727}
+        m_MethodName: ChangeShipVelocity
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityFloatEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  _actionInputEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1620480416
 GameObject:
   m_ObjectHideFlags: 0

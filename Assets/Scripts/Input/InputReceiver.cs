@@ -1,10 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Events;
 
-public abstract class InputReceiver : MonoBehaviour
+public class InputReceiver : MonoBehaviour
 {
-    public abstract void ReceiveHorizontalInput(float value);
+    [SerializeField]
+    private UnityFloatEvent _horizontalInputEvent;
 
-    public abstract void ReceiveVerticalInput(float value);
+    [SerializeField]
+    private UnityFloatEvent _verticalInputEvent;
+
+    [SerializeField]
+    private UnityEvent _actionInputEvent;
+
+
+    public void ReceiveHorizontalInput(float value)
+    {
+        _horizontalInputEvent?.Invoke(value);
+    }
+
+    public void ReceiveVerticalInput(float value)
+    {
+        _verticalInputEvent?.Invoke(value);
+    }
+
+    public void ReceiveActionInput()
+    {
+        _actionInputEvent?.Invoke();
+    }
 }
