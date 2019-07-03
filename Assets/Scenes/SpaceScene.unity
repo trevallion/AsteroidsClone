@@ -279,12 +279,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 493149d3db183114598118dc1134f535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _smallAsteroidPrefab: {fileID: 1388346281786451127, guid: 06e0cab8dc026a8469dd66a1be4df48e,
-    type: 3}
-  _mediumAsteroidPrefab: {fileID: 6790711765041669176, guid: ff43f00dfd3a52f48b9238e8a3180721,
-    type: 3}
-  _largeAsteroidPrefab: {fileID: 5389195425220159455, guid: 6023c0b6a89854d449c1540cd91abb7d,
-    type: 3}
   _bulletPrefab: {fileID: 6001183030538276707, guid: a800447535013af47915c740b14eacb1,
     type: 3}
 --- !u!1 &1351637433
@@ -332,6 +326,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _xBoundary: 10.25
   _yBoundary: 7.25
+  _smallAsteroidPool:
+    _objectPrefab: {fileID: 1388346281786451127, guid: 06e0cab8dc026a8469dd66a1be4df48e,
+      type: 3}
+  _mediumAsteroidPool:
+    _objectPrefab: {fileID: 6790711765041669176, guid: ff43f00dfd3a52f48b9238e8a3180721,
+      type: 3}
+  _largeAsteroidPool:
+    _objectPrefab: {fileID: 5389195425220159455, guid: 6023c0b6a89854d449c1540cd91abb7d,
+      type: 3}
 --- !u!1 &1476752650
 GameObject:
   m_ObjectHideFlags: 0

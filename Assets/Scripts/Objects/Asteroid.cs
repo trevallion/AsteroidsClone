@@ -1,23 +1,37 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class Asteroid : MonoBehaviour, IPoolableObject
+public class AsteroidStateChangedEventArgs : EventArgs
 {
-    private enum AsteroidSizeType
-    {
-        Small,
-        Medium,
-        Large
-    }
+    public Asteroid Source { get; set; }
+    public bool IsAlive { get; set; }
+    public bool DestroyedByPlayer { get; set; }
 
+    public AsteroidStateChangedEventArgs() { }
+
+    public AsteroidStateChangedEventArgs(Asteroid source, bool isAlive, bool destroyedByPlayer)
+    {
+        Source = source;
+        IsAlive = isAlive;
+        DestroyedByPlayer = destroyedByPlayer;
+    }
+}
+
+public enum AsteroidSizeType
+{
+    Small,
+    Medium,
+    Large
+}
+
+public class Asteroid : MonoBehaviour, IPoolableObject, IObservable<AsteroidStateChangedEventArgs>
+{
     private const int BulletLayer = 8;
-    private const float NewAsteroidMinPhysicsMultiplier = 0.5f;
-    private const float NewAsteroidMaxPhysicsMultiplier = 1.25f;
+
+    public event Action<AsteroidStateChangedEventArgs> StateChanged;
 
     [SerializeField]
     private Rigidbody2D _asteroidRigidbody;
-
-    [SerializeField]
-    private ParticleSystem _destroyParticles;
 
     [SerializeField]
     private Renderer _asteroidRenderer;
@@ -27,6 +41,48 @@ public class Asteroid : MonoBehaviour, IPoolableObject
 
     [SerializeField]
     private AsteroidSizeType _asteroidSize;
+
+    public AsteroidSizeType AsteroidSize
+    {
+        get
+        {
+            return _asteroidSize;
+        }
+    }
+
+    public Vector2 Velocity
+    {
+        get
+        {
+            return _asteroidRigidbody.velocity;
+        }
+
+        set
+        {
+            _asteroidRigidbody.velocity = value;
+        }
+    }
+
+    public Vector3 Position
+    {
+        get
+        {
+            return _asteroidRigidbody.position;
+        }
+    }
+
+    public float AngularVelocity
+    {
+        get
+        {
+            return _asteroidRigidbody.angularVelocity;
+        }
+
+        set
+        {
+            _asteroidRigidbody.angularVelocity = value;
+        }
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -38,16 +94,19 @@ public class Asteroid : MonoBehaviour, IPoolableObject
 
     public void Activate()
     {
-        _asteroidRenderer.enabled = true;
-        _collider2D.enabled = true;
+        SetActive(true);
+        AsteroidStateChangedEventArgs eventArgs = new AsteroidStateChangedEventArgs(this, true, false);
+        StateChanged?.Invoke(eventArgs);
     }
 
     public void Deactivate()
     {
-        _asteroidRigidbody.velocity = Vector2.zero;
-        _asteroidRigidbody.angularVelocity = 0;
-        _asteroidRenderer.enabled = false;
-        _collider2D.enabled = false;
+        Deactivate(false);
+    }
+
+    public void Deactivate(bool destroyedByPlayer)
+    {
+        SetActive(false);
     }
 
     public void MoveTo(Vector3 position)
@@ -65,71 +124,28 @@ public class Asteroid : MonoBehaviour, IPoolableObject
         _asteroidRigidbody.angularVelocity = newVelocity;
     }
 
+    public void ReturnToPool()
+    {
+        AsteroidStateChangedEventArgs eventArgs = new AsteroidStateChangedEventArgs(this, false, false);
+        StateChanged?.Invoke(eventArgs);
+    }
+
     private void Explode()
     {
-        //_destroyParticles?.Play();
-        if (_asteroidSize != AsteroidSizeType.Small)
+        AsteroidStateChangedEventArgs eventArgs = new AsteroidStateChangedEventArgs(this, false, true);
+        StateChanged?.Invoke(eventArgs);
+        Deactivate(true);
+    }
+
+    private void SetActive(bool active)
+    {
+        _asteroidRenderer.enabled = active;
+        _collider2D.enabled = active;
+        if (!active)
         {
-            SpawnNewAsteroids();
+            _asteroidRigidbody.velocity = Vector2.zero;
+            _asteroidRigidbody.angularVelocity = 0;
         }
-        Deactivate();
-        ReturnToPool();
-    }
 
-    private void ReturnToPool()
-    {
-        switch (_asteroidSize)
-        {
-            case AsteroidSizeType.Small:
-                ObjectFactory.ReturnSmallAsteroid(this);
-                break;
-            case AsteroidSizeType.Medium:
-                ObjectFactory.ReturnMediumAsteroid(this);
-                break;
-            case AsteroidSizeType.Large:
-                ObjectFactory.ReturnLargeAsteroid(this);
-                break;
-        }
-    }
-
-    private void SpawnNewAsteroids()
-    {
-        Vector2 heading = _asteroidRigidbody.velocity;
-        // Get new headings perpendicular to original heading.
-        Vector2 firstChildHeading = new Vector2(heading.y, -heading.x);
-        Vector2 secondChildHeading = -firstChildHeading;
-        firstChildHeading *= GetRandomPhysicsMultiplier();
-        secondChildHeading *= GetRandomPhysicsMultiplier();
-        float firstChildAngularVelocity = _asteroidRigidbody.angularVelocity * GetRandomPhysicsMultiplier();
-        float secondChildAngularVelocity = -_asteroidRigidbody.angularVelocity * GetRandomPhysicsMultiplier();
-
-        SpawnNewAsteroid(firstChildHeading, firstChildAngularVelocity);
-        SpawnNewAsteroid(secondChildHeading, secondChildAngularVelocity);
-    }
-
-    private void SpawnNewAsteroid(Vector2 heading, float angularVelocity)
-    {
-        Asteroid newAsteroid;
-        switch (_asteroidSize)
-        {
-            case AsteroidSizeType.Medium:
-                newAsteroid = ObjectFactory.GetSmallAsteroid();
-                break;
-            case AsteroidSizeType.Large:
-                newAsteroid = ObjectFactory.GetMediumAsteroid();
-                break;
-            default:
-                throw new System.InvalidOperationException("Attempted to spawn asteroid smaller than small");
-        }
-        Debug.Log($"New asteroid getting velocity {heading} and angular velocity {angularVelocity}");
-        newAsteroid.MoveTo(_asteroidRigidbody.position);
-        newAsteroid.FlyInDirection(heading);
-        newAsteroid.SetAngularVelocity(angularVelocity);
-        Debug.Log($"New asteroid has velocity {_asteroidRigidbody.velocity} and angular velocity {_asteroidRigidbody.angularVelocity}");
-    }
-
-    private float GetRandomPhysicsMultiplier()
-    {
-        return Random.Range(NewAsteroidMinPhysicsMultiplier, NewAsteroidMaxPhysicsMultiplier);
     }
 }
